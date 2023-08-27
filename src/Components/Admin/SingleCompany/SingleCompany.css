@@ -1,0 +1,92 @@
+.SingleCompany {}
+
+.company-card {
+    /* width: fit-content; */
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    /* padding: 16px; */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    transition: transform 0.2s ease-in-out;
+    transform: translateY(-5px);
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+}
+
+.company-name {
+    font-size: 27px;
+    font-weight: bold;
+    /* margin-bottom: 8px; */
+}
+
+.company-info {
+    font-size: 24px;
+}
+
+.CompanyCard {
+    margin: 10px;
+    /* margin-top:40px ; */
+    padding: 10px;
+    display: flex;
+    flex-direction: row;
+    /* background-color: #2980b9; */
+}
+
+.ignore {
+    width: fit-content;
+    display: flex;
+    flex-direction: column;
+    /* margin-top: 25px; */
+    margin-left: 30px;
+}
+
+.input-window {
+    border: "1px solid #ccc";
+    border-radius: "8px";
+    padding: "8px";
+    width: "100%";
+    max-width: 1.5cm;
+}
+
+.input {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    margin: 12px;
+}
+
+.B {
+}
+
+
+.input input[type="number"] {
+    flex: 1;
+    border: 2px solid #ccc;
+    border-radius: 8px;
+    padding: 8px;
+    margin-right: 10px;
+    margin-left: 10px;
+    width: 100%;
+}
+
+.input button.submit {
+    padding: 10px;
+    border: none;
+    border-radius: 8px;
+    /* padding: 8px 16px; */
+    background-color: #007bff;
+    color: #fff;
+    cursor: pointer;
+}
+
+.input button.submit:hover {
+    background-color: #0869d1;
+    transition: background-color 0.3s ease-in-out;
+    /* background-color:black; */
+}
+
+.animated-button:hover {
+    background-color: #2980b9;
+}

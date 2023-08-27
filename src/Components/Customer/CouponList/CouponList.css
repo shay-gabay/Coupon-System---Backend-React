@@ -1,0 +1,70 @@
+.CouponList {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 16px;
+    color: black;
+    /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease-in-out;
+    margin: 5px;
+    width: 200px;
+    height: 660px;
+}
+
+.CouponList:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+}
+
+
+.CouponList>.content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.color {
+    color: blue;
+}
+
+.CouponList p {
+    margin: 0px;
+}
+
+.h1 {
+    text-align: center;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+  }
+  
+  .text {
+    /* font-size: 24px; */
+    transition: color 0.2s ease-in-out;
+    animation: colorChange 20s infinite;
+  }
+  
+  @keyframes colorChange {
+    0% { color: red; }
+    10% { color: orange; }
+    20% { color: yellow; }
+    30% { color: green; }
+    40% { color: blue; }
+    50% { color: indigo; }
+    60% { color: violet; }
+    70% { color: purple; }
+    80% { color: pink; }
+    90% { color: brown; }
+    100% { color: red; }
+  }
+  

@@ -1,0 +1,37 @@
+.CouponCard {
+  font-size: larger;
+  text-align: center;
+  background-color: rgb(159, 158, 158);
+  color: white;
+  padding: 10px;
+  border: 10px;
+}
+
+.imageB{
+  width: 100%;
+  height: 100%;
+}
+.color {
+  color: blue;
+}
+
+/* CouponCard.css */
+
+.CouponList {}
+
+.CouponList:hover img {
+  transform: scale(1.05);
+  transition: transform 0.2s ease-in-out;
+}
+
+.no-hover  {
+  transform: none !important;
+  transition: none !important;
+}
+
+.center {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}

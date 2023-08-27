@@ -1,0 +1,22 @@
+.CopyRights {
+    display: flex;
+    flex-direction: row;
+    font-size: large;
+}
+
+.CopyRights b{
+    font-size: larger;
+
+}
+
+.CopyRights a{
+color: red;
+
+}
+
+.CopyRights span{
+    color:rgb(5, 252, 5);
+
+}
+
+

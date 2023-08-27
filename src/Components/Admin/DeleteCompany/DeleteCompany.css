@@ -1,0 +1,69 @@
+.DeleteCompany {
+	
+}
+.yes-button{
+    background-color:red;
+    color: white;
+    /* padding: 10px 20px; */
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    transition: background-color 0.3s ease-in-out;
+    cursor: pointer;
+    margin-left: 8px;
+
+}
+
+  .yes-button:hover {
+    background-color: rgb(131, 2, 2)
+  }
+
+  .no-button{
+    background-color:rgb(3, 148, 3);
+    color: white;
+    /* padding: 10px 20px; */
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    transition: background-color 0.3s ease-in-out;
+    margin-left: 8px;
+    cursor: pointer;
+
+  }
+  .no-button:hover {
+    background-color: rgb(2, 103, 17)
+  }
+
+  .spc{
+    display: flex;
+    font-size: 25px;
+    padding: 10px;
+    /* justify-content: space-between; */
+  }
+
+  .toggle-button {
+    width: 35px;
+    height: 35px;
+    background-color: #f0f0f0;
+    /* background-color: blue; */
+    border-radius: 12px;
+    /* border: none; */
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .square {
+    width: 100%;
+    height: 100%;
+    /* background-color: blue; */
+  }
+  
+  .checkmark {
+    font-size: 24px;
+    color: green;
+    /* color: white; */
+/* background-color: blue; */
+  }
+  

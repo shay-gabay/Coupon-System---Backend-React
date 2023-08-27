@@ -1,0 +1,65 @@
+.Header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    /* background-color: rgb(2, 12, 157); */
+    /* background-color: rgb(0,8,130); */
+    background-color: rgb(23, 76, 116);
+    /* background: linear-gradient(to top, rgb(21, 21, 189),rgb(23, 76, 116)); */
+    /* background: linear-gradient(to top,white, rgb(21, 21, 189)); */
+    padding: 10px;
+    margin-bottom: 5px;
+}
+
+.header-content {
+    display: flex;
+    align-items: center;
+}
+
+.logo-container {
+    margin-right: 10px;
+}
+
+.title-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.coupon-title {
+    margin: 0;
+    padding: 0;
+    font-size: 40px;
+}
+
+.system-title {
+    margin: 0px 0 0 62px;
+    /* padding: 10px;  */
+    font-size: 24px;
+}
+
+.buttons {
+    display: flex;
+}
+
+.Header button {
+    display: flex;
+    flex-direction: row;
+    width: 130px;
+    height: 50px;
+    font-size: large;
+    justify-content: center;
+    align-items: center;
+    margin: 5px;
+    margin-Right: 5px;
+    /* margin-left: auto; */
+    /* background-color: transparent; */
+    background-color: rgb(33, 96, 145);
+    transition: background-color 0.3s ease-in-out;
+    cursor: pointer;
+
+}
+
+.Header .button:hover {
+    background-color: #2980b9;
+
+}

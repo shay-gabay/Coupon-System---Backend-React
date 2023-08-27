@@ -1,0 +1,25 @@
+.Footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+   color: white;
+    background-color: black;
+    /* background: linear-gradient(to bottom, blue,rgb(23, 76, 116)); */
+    /* background: linear-gradient(to bottom,white, rgb(21, 21, 189)); */
+    /* background-color: rgb(21, 21, 189); */
+	
+}
+/* Animated button */
+.animated-button {
+    background-color: #3498db;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease-in-out;
+  }
+  
+  .animated-button:hover {
+    background-color: #2980b9;
+  }
+  

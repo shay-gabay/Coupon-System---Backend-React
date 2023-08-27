@@ -1,0 +1,14 @@
+.CompanyMenu {
+    /* display: flex;
+    flex: 1;
+    flex-direction: column;
+    align-items: left; */
+}
+
+.img {
+    position: absolute;
+    top: 128px;
+    left: 637px;
+    width: 56%;
+    height: 67%;
+}

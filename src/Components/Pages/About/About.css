@@ -1,0 +1,8 @@
+.About {
+background-color: blue;
+}
+
+.About p::first-letter{
+    font-size: 28px;
+
+}

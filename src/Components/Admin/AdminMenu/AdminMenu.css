@@ -1,0 +1,81 @@
+.AdminMenu {
+  /* display: flex; */
+    /* flex: 1; */
+    /* flex-direction: column; */
+}
+
+h1{
+  text-shadow: 15px 14px 6px rgba(0, 0, 0, 0.1); 
+}
+p{
+  text-shadow: 15px 14px 6px rgba(0, 0, 0, 0.1); 
+
+}
+
+.link {
+    font-size: 20px;
+    text-decoration: none;
+    color: black;
+}
+
+.link:hover {
+    color: blue;
+}
+.a{
+  margin: 0;
+  padding: 0;
+}
+
+.imgB {
+    position: absolute;
+    top: 128px;
+    left: 637px;
+    width:900;
+    height: 900;
+    width: 56%;
+    height: 70%;
+  }
+
+/* AdminMenu.css */
+/* 
+/* Keyframes for the rotation animation */
+ @keyframes rotateRight {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+  
+  @keyframes rotateLeft {
+    0% {
+      transform: rotate(360deg);
+    }
+    100% {
+      transform: rotate(0deg);
+    }
+  } 
+  
+   .AdminMenu .link:hover svg {
+    animation: rotateRight 0.5s forwards;
+  }
+  
+  .AdminMenu .link:not(:hover) svg {
+    animation: rotateLeft 0.5s forwards;
+  }
+   
+
+.fade {
+  opacity: 0; /* Start with opacity 0 */
+  transition: opacity 0.5s ease-in-out; /* Apply transition on opacity with 0.5s duration */
+}
+
+.fade-in {
+  opacity: 1; /* Change opacity to 1 for fadeIn effect */
+}
+
+/* Optional: Add fadeOut effect when exiting */
+.fade-out {
+  opacity: 0; /* Change opacity to 0 for fadeOut effect */
+}

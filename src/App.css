@@ -1,0 +1,37 @@
+.App {
+    display: grid;
+    grid-template-rows: repeat(1fr, 12);
+    grid-template-columns: repeat(1fr, 12);
+    height: 100%;
+    border-radius: 5;
+    cursor: grab
+}
+
+.App .Header {
+    grid-row: 1 span;
+    grid-column: 12 span;
+    height: 100px;
+
+}
+
+.App .Menu {
+    grid-row: 10 span;
+    grid-column: 1.5 span;
+    width: 150px;
+    /* height: 550px; */
+
+}
+
+.App .Main {
+    grid-row: 10 span;
+    grid-column: 10 span;
+    /* height: 670px; */
+
+}
+
+.App .Footer {
+    grid-row: 1 span;
+    grid-column: 12 span;
+    /* bottom: 0; */
+    /* position:sticky; */
+}

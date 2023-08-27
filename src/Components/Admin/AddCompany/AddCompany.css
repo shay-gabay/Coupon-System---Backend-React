@@ -1,0 +1,26 @@
+.AddCompany {
+}
+
+.width {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 240px;
+    height: 410px;
+}
+
+.AddCompany label {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.button {
+    /* margin-left: 14px; */
+    margin-top:10px ;
+    width: 184px; ;
+}
+.red{
+    color: red;
+}

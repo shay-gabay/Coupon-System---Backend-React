@@ -1,0 +1,8 @@
+.Main {
+    display: flex;
+    flex-direction: row;
+    /* background-color: aqua; */
+    /* padding: 30px; */
+    padding: 0;
+    margin: 0;
+ }
