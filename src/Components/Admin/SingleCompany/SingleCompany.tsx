@@ -5,28 +5,28 @@ import { CompanyModel } from "../../../Models/CompanyModel";
 import CompanyCard from "../../Shared/Card/CompanyCard";
 import urlService from "../../../Services/UrlService";
 import notifyService from "../../../Services/NotificationService";
+import { useDispatch } from "react-redux";
+import { gotSingleCompanyAction } from "../../../Redux/CompanyAppState";
 
 function SingleCompany(): JSX.Element {
   const [company, setCompany] = useState<CompanyModel | undefined>();
   const [companyId, setCompanyId] = useState<number>(0);
   const [isValidInput, setIsValidInput] = useState(true);
-  const n = 10;
-
+  const dispatch = useDispatch();
+  
   const handleSubmit = () => {
-    if (companyId <= n && companyId >= 1) {
       axios
         .get<CompanyModel>(`${urlService.admin}/company/${companyId}`)
         .then((res) => {
+          dispatch(gotSingleCompanyAction(res.data))
           console.log(res.data);
           setCompany(res.data);
           setIsValidInput(true);
         })
         .catch((err) => {
           notifyService.showErrorNotification(err)
+          setIsValidInput(false);
         });
-    } else {
-      setIsValidInput(false);
-    }
   };
 
   return (

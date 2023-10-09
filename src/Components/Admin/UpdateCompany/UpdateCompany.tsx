@@ -9,13 +9,14 @@ import {  useState } from "react";
 import store from "./../../../Redux/Store";
 import { CompanyModel } from "../../../Models/CompanyModel";
 import webApiService from "../../../Services/WebApiService";
+import { updatedCompanyACtion } from "../../../Redux/CompanyAppState";
 function UpdateCompany(): JSX.Element {
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const params = useParams();
     const id = +(params.id || 0);
-    const [obj] = useState<CompanyModel>(store.getState().tasksReducer.tasks.filter(t => t.id === id)[0])
+    const [obj] = useState<CompanyModel>(store.getState().companyReducer.companies.filter(t => t.id === id)[0])
     console.log(obj);
     //todo - from some reason i cannot present the when value!
 
@@ -38,7 +39,7 @@ function UpdateCompany(): JSX.Element {
         return webApiService.updateTaskAuth(id, data)
             .then(res => {
                 notifyService.success("Danny is 100% Fullstack!!!")
-                dispatch(updatedTaskAction(res.data));
+                dispatch(updatedCompanyACtion(res.data));
                 navigate("/adminMenu");
             })
             .catch(err => notifyService.error(err))

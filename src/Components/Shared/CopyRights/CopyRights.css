@@ -1,8 +1,16 @@
 .CopyRights {
     display: flex;
-    flex-direction: row;
+    justify-content: center;
+    align-items: center;
     font-size: large;
+    display: flex;
+
 }
+
+.CopyRights p{
+    margin-left: 70px;
+}
+
 
 .CopyRights b{
     font-size: larger;

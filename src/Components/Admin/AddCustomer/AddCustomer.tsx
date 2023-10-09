@@ -6,10 +6,12 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom"; 
 import urlService from "../../../Services/UrlService";
 import notifyService from "../../../Services/NotificationService";
+import { useDispatch } from "react-redux";
+import { addedCustomerAction } from "../../../Redux/CustomerAppState";
 
 function AddCustomer(): JSX.Element {
   const navigate = useNavigate();
-
+  const dispatch = useDispatch();
   const schema = zod.object({
     firstName: zod.string().nonempty("you must enter first name"),
     lastName: zod.string().nonempty("you must enter last name"),
@@ -24,11 +26,11 @@ function AddCustomer(): JSX.Element {
   } = useForm<CustomerModel>({ mode: "all", resolver: zodResolver(schema) });
 
   const onSubmit: SubmitHandler<CustomerModel> = (data: CustomerModel) => {
-    // console.log(data); 
     axios
       .post<CustomerModel>(`${urlService.admin}/customer`, data) 
-      .then(() => {
+      .then((res) => {
         notifyService.success(`Customer ${data.firstName} ${data.lastName} Added Successfully`);
+        dispatch(addedCustomerAction(res.data))
         navigate("/admin");
       })
       .catch((err) => {

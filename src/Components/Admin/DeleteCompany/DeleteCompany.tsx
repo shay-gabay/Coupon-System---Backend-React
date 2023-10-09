@@ -5,20 +5,17 @@ import { CompanyModel } from "../../../Models/CompanyModel";
 import CompanyCard from "../../Shared/Card/CompanyCard";
 import urlService from "../../../Services/UrlService";
 import notifyService from "../../../Services/NotificationService";
-import store from "../../../Redux/Store";
+import store, { RootState } from "../../../Redux/Store";
 import { deletedCompanyAction } from "../../../Redux/CompanyAppState";
-import { useDispatch } from "react-redux";
-// import { date } from "zod";
+import { useDispatch, useSelector } from "react-redux";
 
 function DeleteCompany(): JSX.Element {
   const [company, setCompany] = useState<CompanyModel | undefined>();
   const [companyId, setCompanyId] = useState<number>(0);
   const [isValidInput, setIsValidInput] = useState(true);
  const dispatch = useDispatch();
-  const n = 20;
 
   const handleSubmit = () => {
-    if (companyId <= n && companyId >= 1) {
       axios
         .get<CompanyModel>(`${urlService.admin}/company/${companyId}`)
         .then((res) => {
@@ -27,10 +24,8 @@ function DeleteCompany(): JSX.Element {
         })
         .catch((err) => {
           notifyService.showErrorNotification(err);
+          setIsValidInput(false);
         });
-    } else {
-      setIsValidInput(false);
-    }
   };
 
   const DeleteSubmit = () => {
@@ -54,21 +49,14 @@ function DeleteCompany(): JSX.Element {
     notifyService.error("Company Not Deleted");
   };
 
-  // const [isSquare, setIsSquare] = useState(true);
-
-  // const toggleButton = () => {
-  //   setIsSquare(!isSquare);
-  // };
 
   return (
     <div>
-      {/* <button className="toggle-button" onClick={toggleButton}>
-      {isSquare ? <div className="square"></div> : <div className="checkmark">✓</div>}
-    </button> */}
-
       <h1 className="h1">Delete Company</h1>
-      <div className="input company-card">
-        <h2>Please insert the ID of the company you want to Delete</h2>
+      <div>
+    {(!company) ?
+    <div className="input company-card">
+    <h2>Please insert the ID of the company you want to Delete</h2>
         <input
           className={`input-window ${!isValidInput ? "input-error" : ""}`}
           type="number"
@@ -82,8 +70,8 @@ function DeleteCompany(): JSX.Element {
         />
         <button className="submit" onClick={handleSubmit}>
           Apply
-        </button>
-      </div>
+        </button> </div> : <p></p>}
+      </div> 
       {company && <CompanyCard company={company} />}
       {company && (
         <p className="spc company-card">

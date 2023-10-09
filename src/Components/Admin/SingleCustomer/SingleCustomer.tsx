@@ -5,17 +5,24 @@ import { CustomerModel } from "../../../Models/CustomerModel";
 import CustomerCard from "../../Shared/Card/CustomerCard";
 import urlService from "../../../Services/UrlService";
 import notifyService from "../../../Services/NotificationService";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../../../Redux/Store";
+import { gotSingleCustomerAction } from "../../../Redux/CustomerAppState";
 
 function SingleCustomer(): JSX.Element {
   const [customer, setCustomer] = useState<CustomerModel>();
   const [customerId, setCustomerId] = useState<number>(0);
   const [isValidInput, setIsValidInput] = useState(true);
+  const dispatch = useDispatch();
+  const n = useSelector((state: RootState) => state.customerReducer.customers.length)
+
   const handleSubmit = () => {
-    if (customerId <= 10 && customerId >= 1) {
+    if (customerId <= n && customerId >= 1) {
       axios
         .get<CustomerModel>(`${urlService.admin}/customer/${customerId}`)
         .then((res) => {
           console.log(res.data);
+          dispatch(gotSingleCustomerAction(res.data))
           setCustomer(res.data);
           setIsValidInput(true);
         })

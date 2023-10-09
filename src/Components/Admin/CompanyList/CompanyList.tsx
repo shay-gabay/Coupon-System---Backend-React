@@ -5,16 +5,18 @@ import { CompanyModel } from "../../../Models/CompanyModel";
 import { RxUpdate } from "react-icons/rx";
 import { RiDeleteBin5Fill } from "react-icons/ri";
 import urlService from "../../../Services/UrlService";
-import { Link } from "react-router-dom";
 import store, { RootState } from "../../../Redux/Store";
 import { useDispatch, useSelector } from "react-redux";
-import { gotAllCompaniesAction } from "../../../Redux/CompanyAppState";
+import { deletedCompanyAction, gotAllCompaniesAction } from "../../../Redux/CompanyAppState";
+import notifyService from "../../../Services/NotificationService";
+import { Link } from "react-router-dom";
 
 function CompanyList(): JSX.Element {
   const [company, setCompany] = useState<CompanyModel[]>(store.getState().companyReducer.companies);
-  // const [companyCount,setCompanyCount] = useState<number>();
+  const [selectedCompany, setSelectedCompany] = useState<CompanyModel | null>(null); 
   const total = useSelector((state: RootState) => state.companyReducer.companies.length)
   const dispatch = useDispatch();
+
   useEffect(() => {
       if (company?.length > 0) {
           return;
@@ -28,17 +30,38 @@ function CompanyList(): JSX.Element {
       .catch((err) => console.log(err.data));
   }, []);
 
-    //  axios.get<number>(`${urlService.admin}/companies/count`)
-    //  .then((res) => { 
-    //   setCompanyCount(res.data)
-    // })
-    // .catch((err) => console.log(err))
+  const handleDeleteClick = (company: CompanyModel) => {
+    setSelectedCompany(company); 
+  };
 
+  const handleDeleteConfirm = () => {
+    if (selectedCompany) {
+      const companyId = selectedCompany.id;
+
+      axios
+        .delete<CompanyModel>(`${urlService.admin}/company/${companyId}`)
+        .then((res) => {
+          const updatedCompanyList = company.filter((c) => c.id !== companyId);
+          setCompany(updatedCompanyList);
+          setSelectedCompany(null);
+          dispatch(deletedCompanyAction(companyId));
+          notifyService.success(`Company ${selectedCompany?.name} Deleted Successfully`);
+        })
+        .catch((err) => {
+          console.error(err);
+          notifyService.showErrorNotification(err.message || "Error");
+        });
+    }
+  };
+
+  const handleDeleteCancel = () => {
+    setSelectedCompany(null);
+  };
 
   return (
     <div className="Table">
       <h1>Company List</h1>
-        <p className="total company-card">Total Companies : { total ? <span>{total}</span> : <span>no values</span> }</p>
+        <p className="total company-card">Total Companies :  { total ? <span>{total}</span> : <span> No Values </span> }</p>
       <table>
         <thead>
           <tr>
@@ -62,20 +85,26 @@ function CompanyList(): JSX.Element {
               <td>{company.email}</td>
               <td>{company.password}</td>
               <td>
-                <button className="update">
+                <Link to={"/UpdateCompany"}><button className="update">
                   <RxUpdate />
-                </button>
+                </button></Link>
               </td>
               <td>
-                <button className="delete">
+              <button className="delete" onClick={() => handleDeleteClick(company)}>
                   <RiDeleteBin5Fill />
                 </button>
-                <Link to={`/company/DeleteCompany/:${company.id}`}/>
               </td>
             </tr>
           ))}
         </tbody>
       </table>
+      {selectedCompany && ( 
+        <div className="confirmation-dialog">
+          <p>Are you sure you want to delete {selectedCompany.name}?</p>
+          <button className="yes-button" onClick={handleDeleteConfirm}>Yes</button>
+          <button className="no-button" onClick={handleDeleteCancel}>No</button>
+        </div>
+      )}
     </div>
   );
 }
