@@ -11,7 +11,7 @@ const rootReducer = {
    customerReducer: customersReducer, 
    couponReducer: couponsReducer, 
    userReducer: userReducer,
-    guardReducer: guardReducer,
+   guardReducer: guardReducer,
 };
 
 const store = configureStore({
