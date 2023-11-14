@@ -1,26 +1,24 @@
 import "./DeleteCompany.css";
 import { useState } from "react";
-import axios from "axios";
 import { CompanyModel } from "../../../Models/CompanyModel";
 import CompanyCard from "../../Shared/Card/CompanyCard";
-import urlService from "../../../Services/UrlService";
 import notifyService from "../../../Services/NotificationService";
-import store, { RootState } from "../../../Redux/Store";
-import { deletedCompanyAction } from "../../../Redux/CompanyAppState";
-import { useDispatch, useSelector } from "react-redux";
+import { deletedCompanyAction, gotSingleCompanyAction } from "../../../Redux/CompanyAppState";
+import { useDispatch } from "react-redux";
+import webApiService from "../../../Services/WebApiService";
 
 function DeleteCompany(): JSX.Element {
-  const [company, setCompany] = useState<CompanyModel | undefined>();
+  const [company, setCompany] = useState<CompanyModel>();
   const [companyId, setCompanyId] = useState<number>(0);
   const [isValidInput, setIsValidInput] = useState(true);
  const dispatch = useDispatch();
 
   const handleSubmit = () => {
-      axios
-        .get<CompanyModel>(`${urlService.admin}/company/${companyId}`)
+    webApiService.getSingleCompany(companyId)  
         .then((res) => {
           setCompany(res.data);
           setIsValidInput(true);
+          dispatch(gotSingleCompanyAction(res.data))
         })
         .catch((err) => {
           notifyService.showErrorNotification(err);
@@ -29,15 +27,13 @@ function DeleteCompany(): JSX.Element {
   };
 
   const DeleteSubmit = () => {
-    axios
-      .delete<CompanyModel>(`${urlService.admin}/company/${companyId}`)
+    webApiService.deleteCompany(companyId)
       .then((res) => {
         setCompany(res.data);
         dispatch(deletedCompanyAction(companyId));
         notifyService.success(`Company ${company?.name} Deleted Successfully`);
       })
       .catch((err) => {
-        console.error(err);
         notifyService.showErrorNotification(err.message || "Error");
       });
   };
@@ -70,9 +66,8 @@ function DeleteCompany(): JSX.Element {
         />
         <button className="submit" onClick={handleSubmit}>
           Apply
-        </button> </div> : <p></p>}
+        </button> </div> : null}
       </div> 
-      {company && <CompanyCard company={company} />}
       {company && (
         <p className="spc company-card">
           <b> Are you sure you want to delete this company ? </b>
@@ -84,8 +79,8 @@ function DeleteCompany(): JSX.Element {
           </button>
         </p>
       )}
+      {company && <CompanyCard company={company} />}
     </div>
   );
 }
-// conditional rendering - { flag &&  (---) ? --- : --- }
 export default DeleteCompany;

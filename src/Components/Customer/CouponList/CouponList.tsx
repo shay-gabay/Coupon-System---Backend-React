@@ -4,36 +4,35 @@ import { CouponModel } from "../../../Models/CouponModel";
 import axios from "axios";
 import CouponCard from "../../Shared/Card/CouponCard";
 import urlService from "../../../Services/UrlService";
-import { useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { gotCustomerCouponsNotPurchaseAction } from "../../../Redux/CouponAppState";
+import store from "../../../Redux/Store";
 
 function CouponList(): JSX.Element {
-  const customerId = 2;
+  const dispatch = useDispatch();
+  const params = useParams();
+  const id = +(params.id || 0);
   const [coupon, setCoupon] = useState<CouponModel[]>([]);
+  const headers = { 'Authorization': store.getState().userReducer.user.token };
+ 
   useEffect(() => {
-    axios
-      .get<CouponModel[]>(`${urlService.customer}/${customerId}/customerCouponsNotPurchased`)
+    if (coupon.length > 0) {
+      return; }
+      axios.get<CouponModel[]>(`${urlService.customer}/${id}/customerCouponsNotPurchased`,{headers})
       .then((res) => {
-        console.log(res.data);
+        dispatch(gotCustomerCouponsNotPurchaseAction(res.data));
         setCoupon(res.data);
       })
       .catch((err) => console.log(err.data));
   }, []);
 
-  if (coupon.length === 0) {
-    return (
-      <div className="h1">
-        <h1 >Coupons List</h1>
-        <h1 className="text">*** You Have No coupons Left To Purchase ***</h1>
-      </div>
-    );
-  }
-
   return (
     <div className="content">
       <h1 className="h1">Coupons List</h1>
-      {coupon.map((coupon, idx) => (
+       {!(coupon.length===0) ?  coupon.map((coupon, idx) => (
         <CouponCard key={coupon.title + " " + idx.toString()} coupon={coupon} date={undefined} />
-      ))}
+      )) :  <h1 className="text company-card input">* * * You Have No coupons Left To Purchase * * *</h1>} 
     </div>
   );
 }

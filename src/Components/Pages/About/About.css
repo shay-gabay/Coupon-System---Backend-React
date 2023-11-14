@@ -1,8 +1,69 @@
 .About {
-background-color: blue;
 }
 
 .About p::first-letter{
     font-size: 28px;
+}
+/* 
+.about-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+  } */
+  
+  .about-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+    background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent white background */
+    color: #000; /* Set the text color to black */
+  }
+  
 
+
+  h2, h3 {
+    color: #333;
+  }
+  
+  .company-nameB {
+    font-size: x-large;
+    font-weight: bold;
+    color: #e91e63; 
+  }
+  
+  p {
+    line-height: 1.6;
+  }
+  
+  ul {
+    list-style: disc;
+    margin-left: 20px;
+  }
+  
+  ol {
+    list-style: decimal;
+    margin-left: 20px;
+  }
+  
+  .a {
+    color: #007acc; 
+    text-decoration: none;
+  }
+  
+  /* Style links on hover */
+  .a:hover {
+    color: #005fbf; 
+  }
+  
+.imgE {
+  position: absolute;
+  top: 120px;
+  left: 0px;
+  width: 1470px;
+  height: 550px;
+  margin-right: 200px;
+  transition: transform 0.2s ease-in-out;
+  opacity: 0.7; /* Adjust the opacity value as needed */
 }

@@ -3,25 +3,31 @@ import CardB from "../../Shared/Card/cardB";
 import { CouponModel } from "../../../Models/CouponModel";
 import axios from "axios";
 import urlService from "../../../Services/UrlService";
-import { CompanyModel } from "../../../Models/CompanyModel";
+import { useParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { gotCompanyMaxPriceCouponsAction } from "../../../Redux/CouponAppState";
+import store, { RootState } from "../../../Redux/Store";
 import notifyService from "../../../Services/NotificationService";
 
 function CompanyMaxPriceCoupons(): JSX.Element {
   const [coupon, setCoupon] = useState<CouponModel[]>([]);
-  // const [couponId, setCouponId] = useState<number>();
-  const companyId = 2;
-  
- useEffect (() => {
-    axios
-      .get<CouponModel[]>(`${urlService.company}/${companyId}/coupons/maxPrice`)
+  const dispatch = useDispatch();
+  const params = useParams();
+  const id = +(params.id || 0);
+  const companyName = useSelector((state:RootState)=>state.userReducer.user.clientName);
+  const headers = { 'Authorization': store.getState().userReducer.user.token };
+ 
+  useEffect (() => {
+    axios.get<CouponModel[]>(`${urlService.company}/${id}/coupons/maxPrice`, { headers})
       .then((res) => {
-        console.log(res.data);
         setCoupon(res.data);
+       dispatch(gotCompanyMaxPriceCouponsAction(res.data))
       })
-      .catch((err) => {
-        notifyService.showErrorNotification(err)});
-  }, []);
-
+      .catch((err) =>
+      console.log(err)
+), 
+  []});
+    
 const [selectedMaxPrice, setSelectedMaxPrice] =
     useState<number>();
 
@@ -30,61 +36,30 @@ const [selectedMaxPrice, setSelectedMaxPrice] =
   };
 
   const fetchCouponsByMaxPrice = () => {
-    axios
-      .get<CouponModel[]>(
-        `${urlService.company}/${companyId}/coupons/maxPrice`,
-        {
-          params: {
-            maxPrice: selectedMaxPrice,
-          },
-        }
-      )
+    axios.get<CouponModel[]>(`${urlService.company}/${id}/coupons/maxPrice`, {
+    headers,
+     params: { maxPrice: selectedMaxPrice, 
+    },
+    })
       .then((res) => {
-        console.log(res.data);
         setCoupon(res.data);
       })
-      .catch((err) => notifyService.showErrorNotification(err));
-  };
-
-  // const maxPrices = [50, 100, 150, 200]; // Add more values as needed
-  const [company, setCompany] = useState<CompanyModel[]>([]);
-  useEffect(() => {
-    axios
-      .get<CompanyModel[]>(`${urlService.company}/${companyId}`)
-      .then((res) => {
-        console.log(res.data);
-        setCompany([res.data]);
-      })
-      .catch((err) => console.log(err.data));
-  }, []);
-
+      .catch((err) => {
+      notifyService.showErrorNotification(err);
+  });
+  }
   return (
     <div className="content">
       <h1 className="h1">Company Maximum Price Coupons</h1>
-      <div className="CustomerCoupons">
-        {company.map((company, idx) => (
-          <div key={company.id + " " + idx.toString()}>
-            <p>
-              Company Name: {company.name}{" "}
-            </p>
-          </div>
-        ))}
-      </div>
-
+      <p className="CustomerCoupons input"> Company Name: {companyName}</p>
       <div className="input company-card">
-  <h2>Please insert the maximum price of coupon ₪</h2>
-  <input className="input-window"
-    type="number"
-    min="0"
-    step="50"
-    placeholder="Price..."
-    value={selectedMaxPrice}
-    onChange={handleMaxPriceChange}
-  />
-  <button className="submit" onClick={fetchCouponsByMaxPrice}> Apply </button>
-</div>
+      <h2>Please insert the maximum price of coupon ₪</h2>
+      <input className="input-window" type="number" min="0" step="50" placeholder="Price..." value={selectedMaxPrice}
+      onChange={handleMaxPriceChange} />
+      <button className="submit" onClick={fetchCouponsByMaxPrice}> Apply </button>
+      </div>
       {coupon.map((coupon, idx) => (
-        <CardB key={coupon.title + " " + idx.toString()} coupon={coupon} />
+        <CardB key={coupon.title + " " + idx.toString()} coupon={coupon} date={undefined} />
       ))}
     </div>
   );

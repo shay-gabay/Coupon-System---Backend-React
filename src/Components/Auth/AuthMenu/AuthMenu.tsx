@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import "./AuthMenu.css";
 import { useSelector } from "react-redux";
 import { RootState } from "./../../../Redux/Store";
+import { AiOutlineLogin, AiOutlineLogout } from "react-icons/ai";
 
 function AuthMenu(): JSX.Element {
     const user =useSelector((state:RootState)=>state.userReducer.user)
@@ -11,15 +12,19 @@ function AuthMenu(): JSX.Element {
                 (user.token)
                     ?
                     <>
-                        <p>connected as {user.email} <Link to="logout">Logout</Link></p>
+                        <p className="center">connected as &nbsp;<h2 className="white">{user.clientName}</h2>&nbsp;&nbsp;&nbsp; 
+                        <Link className="link" to="/logout"> <button className="button"><AiOutlineLogout style={{ marginRight: "5px" }} /><b>LogOut</b></button></Link>
+                         </p> 
                     </>
                     :
                     <>
-                        <p>hello guest&nbsp;&nbsp;&nbsp;
-                            <Link to="register">Register</Link>
-                            &nbsp;&nbsp;&nbsp;
-                            <Link to="login">Login</Link>
-                        </p>
+                        <p className="center">hello guest&nbsp;&nbsp;&nbsp; 
+                         <div className="buttons"> 
+                         <Link className="link" to="/Login"> <button className="button"><AiOutlineLogin style={{ marginRight: "5px" }} /><b>LogIn</b></button></Link>
+                         </div> 
+                         </p>
+                       
+                       
                     </>
             }
         </div>

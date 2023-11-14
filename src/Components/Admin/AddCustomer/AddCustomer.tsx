@@ -2,12 +2,11 @@ import { CustomerModel } from "../../../Models/CustomerModel";
 import { SubmitHandler, useForm } from "react-hook-form";
 import * as zod from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import axios from "axios"; 
 import { useNavigate } from "react-router-dom"; 
-import urlService from "../../../Services/UrlService";
 import notifyService from "../../../Services/NotificationService";
 import { useDispatch } from "react-redux";
 import { addedCustomerAction } from "../../../Redux/CustomerAppState";
+import webApiService from "../../../Services/WebApiService";
 
 function AddCustomer(): JSX.Element {
   const navigate = useNavigate();
@@ -26,9 +25,8 @@ function AddCustomer(): JSX.Element {
   } = useForm<CustomerModel>({ mode: "all", resolver: zodResolver(schema) });
 
   const onSubmit: SubmitHandler<CustomerModel> = (data: CustomerModel) => {
-    axios
-      .post<CustomerModel>(`${urlService.admin}/customer`, data) 
-      .then((res) => {
+    webApiService.addCustomer(data)  
+    .then((res) => {
         notifyService.success(`Customer ${data.firstName} ${data.lastName} Added Successfully`);
         dispatch(addedCustomerAction(res.data))
         navigate("/admin");
@@ -44,14 +42,14 @@ function AddCustomer(): JSX.Element {
       <h1 className="center">Add Customer</h1>
       <form className="company-card width" onSubmit={(...args) => void handleSubmit(onSubmit)(...args)}>
 			
-      {(errors?.firstName) ? <span className="red">{errors.firstName.message}</span> : <label htmlFor="firstName">First Name</label>}
+        {(errors?.firstName) ? <span className="red">{errors.firstName.message}</span> : <label htmlFor="firstName">First Name</label>}
 			  <input {...register("firstName")} className="input" name="firstName" type="text" placeholder="First Name..." />
 			
-              {(errors?.lastName) ? <span className="red">{errors.lastName.message}</span> : <label htmlFor="lastName">Last Name</label>}
+        {(errors?.lastName) ? <span className="red">{errors.lastName.message}</span> : <label htmlFor="lastName">Last Name</label>}
 			  <input {...register("lastName")} className="input" name="lastName" type="text" placeholder="Last Name..." />
 
 			  {(errors?.email) ? <span className="red">{errors.email.message}</span> : <label htmlFor="email">Email</label>}
-              <input  {...register("email")} className="input" name="email" type="email" placeholder="Email..." />
+        <input  {...register("email")} className="input" name="email" type="email" placeholder="Email..." />
 
         {(errors?.password) ? <span className="red">{errors.password.message}</span> : <label htmlFor="password">Password</label>}
         <input  {...register("password")}  className="input" name="password" type="password" placeholder="Password..."  />

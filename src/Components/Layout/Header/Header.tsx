@@ -1,8 +1,6 @@
 import "./Header.css";
 import logoCs from "../../../assets/Images/LogoCs.jpg";
-import { AiOutlineLogout } from "react-icons/ai";
-import { AiOutlineLogin } from "react-icons/ai";
-import { BiRegistered } from "react-icons/bi";
+import AuthMenu from "../../Auth/AuthMenu/AuthMenu";
 
 function Header(): JSX.Element {
   return (
@@ -16,11 +14,7 @@ function Header(): JSX.Element {
           <h1 className="system-title">System</h1>
         </div>
       </div>
-     <div className="buttons">
-     <button className="button"><BiRegistered style={{ marginRight: "5px" }} /><b>Register</b></button>
-     <button className="button"><AiOutlineLogin style={{ marginRight: "5px" }} /><b>LogIn</b></button>
-      <button className="button"><AiOutlineLogout style={{ marginRight: "5px" }} /><b>LogOut</b></button>
-      </div>
+      <AuthMenu/>
     </div>
   );
 }

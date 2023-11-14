@@ -1,0 +1,61 @@
+.Welcome{
+   display:flex;
+   flex-direction: column;
+   justify-content: center;
+   align-items: center;
+   font-size: x-large;
+}
+.h1 {
+    font-size: xx-large;
+} 
+.grey{
+    color: grey;
+}
+.fs{
+    font-size: 60px;
+}
+
+.Welcome {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    /* height: 100vh; */
+  }
+  
+  .Welcome h1.fs {
+    font-size: 2.5em;
+    animation: rainbow 15s linear infinite; /* Adjust the animation duration as needed */
+  }
+  
+  @keyframes rainbow {
+    0% {
+      color: red;
+    }
+    14% {
+      color: orange;
+    }
+    28% {
+      color: yellow;
+    }
+    42% {
+      color: green;
+    }
+    57% {
+      color: blue;
+    }
+    71% {
+      color: indigo;
+    }
+    85% {
+      color: violet;
+    }
+    100% {
+      color: red;
+    }
+  }
+/*   
+  .Welcome h2.grey {
+    color: grey;
+  }
+   */

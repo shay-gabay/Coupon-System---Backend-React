@@ -7,31 +7,24 @@
     cursor: grab
 }
 
-.App .Header {
-    grid-row: 1 span;
+.App> .Header {
+    height: 100px;  
     grid-column: 12 span;
-    height: 100px;
-
+    grid-row: 1 span;
 }
 
-.App .Menu {
+.App> .Menu {
+    grid-column: 2 span;
     grid-row: 10 span;
-    grid-column: 1.5 span;
-    width: 150px;
-    /* height: 550px; */
-
 }
 
-.App .Main {
-    grid-row: 10 span;
+.App> .Main {
     grid-column: 10 span;
-    /* height: 670px; */
-
+    grid-row: 10 span;
+margin: 0px;
 }
 
-.App .Footer {
+.App> .Footer {
     grid-row: 1 span;
     grid-column: 12 span;
-    /* bottom: 0; */
-    /* position:sticky; */
 }

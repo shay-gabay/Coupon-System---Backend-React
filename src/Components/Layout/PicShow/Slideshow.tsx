@@ -1,5 +1,5 @@
+import './Slideshow.css'; 
 import React, { useState, useEffect } from 'react';
-import './Slideshow.css'; // Import the associated CSS file
 
 interface SlideshowProps {
   images: string[];
@@ -37,7 +37,6 @@ const Slideshow: React.FC<SlideshowProps> = ({ images }) => {
   );
 };
 
-// Extract the image name without folders and file extension
 function getImageName(imageUrl: string): string {
   const parts = imageUrl.split('/');
   const fileNameWithExtension = parts.pop() || '';

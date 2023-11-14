@@ -19,7 +19,6 @@ function CustomerCard(props: CustomerCardProps): JSX.Element {
         </thead>
         <tbody>
           <tr>
-            {/* <img src={"/src/assets/Images/customer photo.png"} alt="Customer" height={50} width={50}/> */}
             <td>{props.customer.id}</td>
             <td>{props.customer.firstName}</td>
             <td>{props.customer.lastName}</td>

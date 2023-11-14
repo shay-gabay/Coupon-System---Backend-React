@@ -9,7 +9,7 @@ function Page404(): JSX.Element {
       </button></Link>
       <img
         src="/src/assets/Images/page-404.jpg"
-        width={1310}
+        width={1100}
         height={510}
         className="image"
       />

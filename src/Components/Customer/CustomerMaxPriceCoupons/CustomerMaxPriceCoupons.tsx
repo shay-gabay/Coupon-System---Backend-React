@@ -6,24 +6,32 @@ import axios from "axios";
 import urlService from "../../../Services/UrlService";
 import { CustomerModel } from "../../../Models/CustomerModel";
 import notifyService from "../../../Services/NotificationService";
+import { useParams } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { gotCustomerMaxPriceCouponsAction } from "../../../Redux/CouponAppState";
+import { gotSingleCustomerAction } from "../../../Redux/CustomerAppState";
+import store from "../../../Redux/Store";
 
 function CustomerMaxPriceCoupons(): JSX.Element {
   const [coupon, setCoupon] = useState<CouponModel[]>([]);
-  // const [couponId, setCouponId] = useState<number>();
-  const customerId = 1;
+  const dispatch = useDispatch();
+  const params = useParams();
+  const id = +(params.id || 0);
+  const headers = { 'Authorization': store.getState().userReducer.user.token };
   
  useEffect (() => {
     axios
-      .get<CouponModel[]>(`${urlService.customer}/${customerId}/coupons/maxPrice`)
+      .get<CouponModel[]>(`${urlService.customer}/${id}/coupons/maxPrice`,{headers,})
       .then((res) => {
         console.log(res.data);
         setCoupon(res.data);
+        dispatch(gotCustomerMaxPriceCouponsAction(res.data));
       })
-      .catch((err) => console.log(err.data));
+      .catch((err) => console.log([err.data]));
   }, []);
 
 const [selectedMaxPrice, setSelectedMaxPrice] =
-    useState<number>();
+    useState<number>(0);
 
   const handleMaxPriceChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedMaxPrice(parseInt(event.target.value));
@@ -32,13 +40,10 @@ const [selectedMaxPrice, setSelectedMaxPrice] =
   const fetchCouponsByMaxPrice = () => {
     axios
       .get<CouponModel[]>(
-        `${urlService.customer}/${customerId}/coupons/maxPrice`,
-        {
-          params: {
-            maxPrice: selectedMaxPrice,
-          },
-        }
-      )
+        `${urlService.customer}/${id}/coupons/maxPrice`, {
+         headers,
+          params: { maxPrice: selectedMaxPrice,  },
+        })
       .then((res) => {
         console.log(res.data);
         setCoupon(res.data);
@@ -46,13 +51,14 @@ const [selectedMaxPrice, setSelectedMaxPrice] =
       .catch((err) => notifyService.showErrorNotification(err));
   }; 
 
-  const [customer, setCustomer] = useState<CustomerModel[]>([]);
+  const [customer, setCustomer] = useState<CustomerModel>();
   useEffect(() => {
     axios
-      .get<CustomerModel[]>(`${urlService.customer}/${customerId}`)
+      .get<CustomerModel>(`${urlService.customer}/${id}`)
       .then((res) => {
         console.log(res.data);
-        setCustomer([res.data]);
+        setCustomer(res.data);
+        dispatch(gotSingleCustomerAction(res.data))
       })
       .catch((err) => console.log(err.data));
   }, []);
@@ -61,13 +67,9 @@ const [selectedMaxPrice, setSelectedMaxPrice] =
     <div className="content">
       <h1 className="h1">Customer Maximum Price Coupons</h1>
       <div className="CustomerCoupons">
-        {customer.map((customer, idx) => (
-          <div key={customer.id + " " + idx.toString()}>
             <p>
-              Customer Name: {customer.firstName} {customer.lastName} {" "}
+              Customer Name: {customer?.firstName} {customer?.lastName} {" "}
             </p>
-          </div>
-        ))}
       </div>
 
       <div className="input company-card">

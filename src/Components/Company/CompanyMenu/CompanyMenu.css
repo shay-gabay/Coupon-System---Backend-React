@@ -1,8 +1,4 @@
 .CompanyMenu {
-    /* display: flex;
-    flex: 1;
-    flex-direction: column;
-    align-items: left; */
 }
 
 .img {
@@ -11,4 +7,20 @@
     left: 637px;
     width: 56%;
     height: 67%;
+}
+.App .Menu {
+    grid-row: 10 span;
+    grid-column: 1.5 span;
+    width: 300px;
+  }
+
+  
+.imgC {
+    position: absolute;
+    top: 120px;
+    left: 300px;
+    /* width: 80%; */
+    /* height: 73%; */
+height: 557px;
+width: 1171px; 
 }

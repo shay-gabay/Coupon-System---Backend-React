@@ -1,52 +1,44 @@
 import "./CompanyCoupons.css";
 import { useEffect, useState } from "react";
-import CardB from "../../Shared/Card/cardB";
 import { CouponModel } from "../../../Models/CouponModel";
-import axios from "axios";
-import urlService from "../../../Services/UrlService";
-import { CompanyModel } from "../../../Models/CompanyModel";
 import notifyService from "../../../Services/NotificationService";
+import { gotCompanyCouponsAction } from "../../../Redux/CouponAppState";
+import { useParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import CardC from "../../Shared/Card/CardC";
+import { RootState } from "../../../Redux/Store";
+import webApiService from "../../../Services/WebApiService";
 
 function CompanyCoupons(): JSX.Element {
   const [coupon, setCoupon] = useState<CouponModel[]>([]);
-  const companyId=1
+  const dispatch = useDispatch();
+  const params = useParams();
+  const id = +(params.id || 0);
+  const companyName =useSelector((state:RootState)=>state.userReducer.user.clientName)
+
 
   useEffect(() => {
-    axios
-      .get<CouponModel[]>(`${urlService.company}/${companyId}/coupons`)
+    webApiService.getAllCompanyCoupons(id)
       .then((res) => {
-        console.log(res.data);
         setCoupon(res.data);
+        dispatch(gotCompanyCouponsAction(res.data))
       })
       .catch((err) => {
         notifyService.showErrorNotification(err.data)});
 }, []);
 
-  const [company, setCompany] = useState<CompanyModel[]>([]);
-  useEffect(() => {
-    axios
-      .get<CompanyModel[]>(`${urlService.company}/${companyId}`)
-      .then((res) => {
-        console.log(res.data);
-        setCompany([res.data]);
-      })
-      .catch((err) => console.log(err.data));
-  }, []);
-
   return (
     <div className="content">
       <h1 className="h1">Company's Coupons</h1>
-      
       <div className="CustomerCoupons">
-        {company.map((company, idx) => (
-         <div key={company.id + " " + idx.toString()}>
-         <p>Company Name: {company.name}</p>
-       </div>
-     ))}
+      <p>Company Name: {companyName}</p>
       </div>
-      {coupon.map((coupon, idx) => (
-        <CardB key={coupon.title + " " + idx.toString()} coupon={coupon} />
+      <p >{!(coupon.length==0) ? 
+      <p>
+        {coupon.map((coupon, idx) => (
+        <CardC key={coupon.title + " " + idx.toString()} coupon={coupon} date={undefined} />
       ))}
+      </p> : <p className="CustomerCoupons input">No Values</p>}</p>
     </div>
   );
 }

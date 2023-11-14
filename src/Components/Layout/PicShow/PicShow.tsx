@@ -6,11 +6,6 @@ const imageUrls = [
   "/src/assets/Images/Clothing.jpg",
   "/src/assets/Images/Computer.jpg",
   "/src/assets/Images/Health.jpg",
-
-  //   'url1.jpg',
-  //   'url2.jpg',
-  //   'url3.jpg',
-  // Add more image URLs
 ];
 
 function PicShow() {

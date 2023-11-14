@@ -1,26 +1,22 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { CouponModel } from "../../../Models/CouponModel";
 import axios from "axios";
 import urlService from "../../../Services/UrlService";
-import { CustomerModel } from "../../../Models/CustomerModel";
 import CardB from "../../Shared/Card/CardB";
 import { CouponCategory } from "/react/coupon_system_react/src/Models/CouponModel";
 import notifyService from "../../../Services/NotificationService";
+import { useParams } from "react-router-dom";
+import { gotCustomerCategoryCouponsAction } from "../../../Redux/CouponAppState";
+import store, { RootState } from "../../../Redux/Store";
+import { useDispatch, useSelector } from "react-redux";
 
 function CustomerCategoryCoupons(): JSX.Element {
   const [coupon, setCoupon] = useState<CouponModel[]>([]);
-  const [customer, setCustomer] = useState<CustomerModel[]>([]);
-  const customerId = 1;
-
-  useEffect(() => {
-    axios
-      .get<CustomerModel[]>(`${urlService.customer}/${customerId}`)
-      .then((res) => {
-        console.log(res.data);
-        setCustomer([res.data]);
-      })
-      .catch((err) => notifyService.showErrorNotification(err));
-  }, []);
+  const dispatch = useDispatch();
+  const params = useParams();
+  const id = +(params.id || 0);
+  const customerName = useSelector((state:RootState)=>state.userReducer.user.clientName);
+  const headers = { 'Authorization': store.getState().userReducer.user.token };
 
   const [selectedCategory, setSelectedCategory] =
     useState<CouponCategory>("FOOD");
@@ -31,17 +27,14 @@ function CustomerCategoryCoupons(): JSX.Element {
 
   const fetchCouponsByCategory = () => {
     axios
-      .get<CouponModel[]>(
-        `${urlService.customer}/${customerId}/coupons/category`,
-        {
-          params: {
-            category: selectedCategory,
-          },
-        }
-      )
+      .get<CouponModel[]>(`${urlService.customer}/${id}/coupons/category`, {
+      headers,
+          params: { category: selectedCategory, },
+  })
       .then((res) => {
         console.log(res.data);
         setCoupon(res.data);
+        dispatch(gotCustomerCategoryCouponsAction(res.data))
       })
       .catch((err) => notifyService.showErrorNotification(err));
   };
@@ -50,15 +43,10 @@ function CustomerCategoryCoupons(): JSX.Element {
     <div className="content">
       <h1 className="h1">Customer Category Coupons</h1>
       <div className="CustomerCoupons">
-        {customer.map((customer, idx) => (
-          <div key={customer.id + " " + idx.toString()}>
             <p>
-              Customer Name: {customer.firstName} {customer.lastName}{" "}
+              Customer Name: {customerName} 
             </p>
-          </div>
-        ))}
       </div>
-
       <div className="company-card input">
         <h2>Please select a category</h2>
             <select
@@ -76,7 +64,7 @@ function CustomerCategoryCoupons(): JSX.Element {
         <button className="submit" onClick={fetchCouponsByCategory}> Apply</button>
       </div>
       {coupon.map((coupon, idx) => (
-        <CardB key={coupon.title + " " + idx.toString()} coupon={coupon} />
+        <CardB key={coupon.title + " " + idx.toString()} coupon={coupon} date={undefined} />
       ))}
     </div>
     

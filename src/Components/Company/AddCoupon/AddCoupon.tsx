@@ -2,16 +2,19 @@ import "./AddCoupon.css";
 import { SubmitHandler, useForm } from "react-hook-form";
 import * as zod from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import axios from "axios"; 
-import { useNavigate } from "react-router-dom"; 
-import urlService from "../../../Services/UrlService";
+import { useNavigate, useParams } from "react-router-dom"; 
 import { CouponCategory, CouponModel } from "../../../Models/CouponModel";
 import React, { useState } from "react";
 import notifyService from "../../../Services/NotificationService";
+import { useDispatch } from "react-redux";
+import { addedCouponAction } from "../../../Redux/CouponAppState";
+import webApiService from "../../../Services/WebApiService";
 
 function AddCoupon(): JSX.Element {
   const navigate = useNavigate();
-  
+  const dispatch = useDispatch();
+  const params = useParams();
+  const id = +(params.id || 0);
   const [selectedCategory, setSelectedCategory] =
   useState<CouponCategory>("FOOD");
 
@@ -23,50 +26,28 @@ function AddCoupon(): JSX.Element {
     category: zod.string().nonempty("you must enter category"),
     title: zod.string().nonempty("you must enter title"),
     description: zod.string().nonempty("you must enter description"),
-    // amount: zod.string().refine(value => !isNaN(parseFloat(value)), { message: "you must enter amount", path: ["amount"], }),
-    // price: zod.string().refine(value => !isNaN(parseFloat(value)), { message: "you must enter price", path: ["price"], }),
-   
-    amount: zod.string().refine(value => !isNaN(parseFloat(value)), {
-      message: "you must enter a valid amount",
-      path: [],
-    }),
-    price: zod.string().refine(value => !isNaN(parseFloat(value)), {
-      message: "you must enter a valid price",
-      path: [],
-    }),
-   
+    amount: zod.string().refine(value => !isNaN(parseFloat(value)) && parseFloat(value) > 0, {message: "you must enter a valid amount",path: [],}),
+    price: zod.string().refine(value => !isNaN(parseFloat(value)) && parseFloat(value) > 0, {message: "you must enter a valid price",path: [],}),
     image: zod.string().nonempty("you must insert image"),
     startDate: zod.string().transform((dateString, ctx) => {
-      const date = new Date(dateString);
-      if (!zod.date().safeParse(date).success) {ctx.addIssue({
-      code: zod.ZodIssueCode.invalid_date, })}
-      return date;}),
+     const date = new Date(dateString);
+     if (!zod.date().safeParse(date).success) {ctx.addIssue({code: zod.ZodIssueCode.invalid_date, })}return date;}),
     endDate: zod.string().transform((dateString, ctx) => {
     const date = new Date(dateString);
-      if (!zod.date().safeParse(date).success) {ctx.addIssue({
-      code: zod.ZodIssueCode.invalid_date, })}
-        return date;})
- 
+      if (!zod.date().safeParse(date).success) {ctx.addIssue({code: zod.ZodIssueCode.invalid_date, })}return date;}),
     });
 
-  const companyId=1;
-  const {
-    register,
-    handleSubmit,
-    formState: { errors, isValid, isSubmitting },
-  } = useForm<CouponModel>({ mode: "all", resolver: zodResolver(schema) });
-
+  const {register,handleSubmit,formState: { errors, isValid, isSubmitting },} = useForm<CouponModel>({ mode: "all", resolver: zodResolver(schema) });
 
   const onSubmit: SubmitHandler<CouponModel> = (data: CouponModel) => {
     data.price = parseFloat(data.price);
     data.startDate = new Date(data.startDate);
     data.endDate = new Date(data.endDate);
-    // console.log(data); 
-    axios
-      .post<CouponModel>(`${urlService.company}/${companyId}/coupons`, data) 
-      .then(() => {
+    webApiService.addCoupon(id,data)
+      .then((res) => {
        notifyService.success(`Coupon Added successfully `)
-        navigate("/company");
+       dispatch(addedCouponAction(res.data)) 
+       navigate("/company");
       })
       .catch((err) => {
       notifyService.showErrorNotification(err)
@@ -92,7 +73,7 @@ function AddCoupon(): JSX.Element {
         </p>
         <p className="design">  
         {(errors?.amount) ? <span className="red">{errors.amount.message}</span> : <label htmlFor="amount">Amount</label>}
-        <input  {...register("amount")}  className="input c" name="amount" type="number" placeholder="Amount..."  />
+        <input  {...register("amount")}  className="input c"  name="amount" type="number" placeholder="Amount..."  />
 
         {(errors?.price) ? <span className="red">{errors.price.message}</span> : <label htmlFor="price">Price</label>}
         <input {...register("price")} className="input c" name="price" type="number" placeholder="Price..." />

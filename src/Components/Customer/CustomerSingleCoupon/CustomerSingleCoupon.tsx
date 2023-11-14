@@ -1,38 +1,34 @@
 import { useEffect, useState } from "react";
 import CardB from "../../Shared/Card/cardB";
-// import CustomerCard from "../../Shared/Card/CustomerCard";
 import { CouponModel } from "../../../Models/CouponModel";
 import axios from "axios";
 import urlService from "../../../Services/UrlService";
-import { CustomerModel } from "../../../Models/CustomerModel";
 import notifyService from "../../../Services/NotificationService";
+import { useParams } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { gotSingleCouponAction } from "../../../Redux/CouponAppState";
+import store, { RootState } from "../../../Redux/Store";
+import { useSelector } from "react-redux";
 
 function CustomerSingleCoupon(): JSX.Element {
   const [coupon, setCoupon] = useState<CouponModel>();
   const [couponId, setCouponId] = useState<number>(0);
-  const customerId = 1;
+  const dispatch = useDispatch();
+  const params = useParams();
+  const id = +(params.id || 0);
+  const headers = { 'Authorization': store.getState().userReducer.user.token };
+  const customerName = useSelector((state:RootState)=>state.userReducer.user.clientName)
+  
   const handleSubmit = () => {
     axios
       .get<CouponModel>(
-        `${urlService.customer}/${customerId}/coupons/${couponId}`
-      )
+        `${urlService.customer}/${id}/coupons/${couponId}`,{headers})
       .then((res) => {
-        console.log(res.data);
         setCoupon(res.data);
+        dispatch(gotSingleCouponAction(res.data));
       })
       .catch((err) => notifyService.showErrorNotification(err));
   };
-
-  const [customer, setCustomer] = useState<CustomerModel>();
-  useEffect(() => {
-    axios
-      .get<CustomerModel>(`${urlService.customer}/${customerId}`)
-      .then((res) => {
-        console.log(res.data);
-        setCustomer(res.data);
-      })
-      .catch((err) => notifyService.showErrorNotification(err));
-  }, []);
 
   return (
     <div className="content">
@@ -40,7 +36,7 @@ function CustomerSingleCoupon(): JSX.Element {
       <div className="CustomerCoupons">
           <div>
             <p>
-              Name: {customer?.firstName} {customer?.lastName }{" "}
+              Name: {customerName} 
             </p>
           </div>
       </div>
@@ -61,7 +57,7 @@ function CustomerSingleCoupon(): JSX.Element {
           Apply
         </button>
       </div>
-       {coupon && <CardB coupon={coupon} /> }
+       {coupon && <CardB coupon={coupon} date={undefined} /> }
     </div>
   );
 }

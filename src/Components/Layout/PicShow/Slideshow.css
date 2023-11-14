@@ -19,6 +19,7 @@
     padding: 10px;
     border-radius: 5px;
     font-size: 16px;
+
   }
 
 .slide-text {
@@ -27,15 +28,15 @@
 
 .slideshow-container {
     position: relative;
-    width: 1331px; 
-    height: 523px;
+    height: 555px;
+    width: 1140px;
     overflow: hidden;
-}
+    margin-bottom: 0px;
+
+  }
 
 .slide img {
   width: 100%; 
-    /* height: auto;  */
-    max-width: 1331px; 
-    max-height: 520px; 
-    /* object-fit: cover;  */
-}
+    max-width: 1140px; 
+    max-height: 555px; 
+  }

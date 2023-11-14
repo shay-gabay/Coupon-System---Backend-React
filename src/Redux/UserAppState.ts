@@ -1,27 +1,19 @@
-//This is UserAppState.ts file
+import { ClientType } from './../Models/Login';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { LoginResModel } from '../Models/Login';
-
 
 interface UserState {
     user: LoginResModel
 }
 
-
-
-//This is the initialized Task Application State - initialize within empty array
 const initialState: UserState = {
-    user: { token: "", email: "" }
+    user: { token: "", id: 0 ,clientType: ClientType.ADMINISTRATOR, clientName: "" }
 };
 
-
-//These are all possible actions
 export enum ActionType {
     USER_lOGGED_IN = "USER_lOGGED_IN",
-    USER_REGISTERED = "USER_REGISTERED",
     USER_LOGGED_OUT = "USER_LOGGED_OUT",
 }
-
 
 const userSlice = createSlice({
     name: "user",
@@ -38,14 +30,9 @@ const userSlice = createSlice({
     },
 });
 
-
-//This is the exported tasks
 export const {
     userLoggedIn,
     userLoggedOut,
    } = userSlice.actions;
 
-
-
-//Export the reducer
 export const userReducer = userSlice.reducer;

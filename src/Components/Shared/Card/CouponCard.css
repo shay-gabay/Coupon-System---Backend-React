@@ -15,8 +15,6 @@
   color: blue;
 }
 
-/* CouponCard.css */
-
 .CouponList {}
 
 .CouponList:hover img {
@@ -35,3 +33,33 @@
   align-items: center;
   justify-content: center;
 }
+.psn{
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+}
+.btn{
+  color: white;
+    padding: 10px 10px;
+    margin: 7px;
+    border: none;
+    border-radius: 5px;
+    font-size: 15px;
+    transition: background-color 0.3s ease-in-out;
+    cursor: pointer;
+  
+  }
+
+  .dlt{
+    background-color: red;
+    }
+    .upd{
+    background-color:green;
+    }
+  
+  .dlt:hover {
+    background-color:rgb(201, 25, 25)
+  }
+  .upd:hover {
+    background-color:rgb(4, 90, 4)
+  }

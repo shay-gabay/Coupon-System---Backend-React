@@ -1,3 +1,123 @@
-.Login {
-	
+.login {
+    display: flex;
+    flex-direction: column;
+    width: 580px;
+    height: 450px;
+    align-items: center;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 16px;
+    transition: transform 0.2s ease-in-out;
+    transform: translateY(-3px);
+    transform: translateX(290px);
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+    position: absolute;
+    top: 51%;
+    left: 50%;
+    transform: translate(-50%, -43%);
+    background-color: rgba(255, 255, 255, 0.7);
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.circle-b {
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    width: 40px;
+    height: 40px;
+    font-size: 27px;
+    background-color: #3498db;
+    color:white;
+    border-radius: 50%;
+}
+
+.wdt {
+    margin-top: -22px;
+    width: 90px;
+    height: 90px;
+}
+
+.bx {
+    width: 300px;
+    box-shadow: 0 10px 10px rgba(0, 0, 0, 0.2);
+
+}
+
+.cx {
+    width: 320px;
+    box-shadow: 0 10px 10px rgba(0, 0, 0, 0.2);
+
+}
+
+.dx {
+    align-items: center;
+    margin-top: 20px;
+    width: 347px;
+    box-shadow: 0 10px 10px rgba(0, 0, 0, 0.2);
+}
+
+.px {
+    display: flex;
+    flex-direction: row;
+    position: absolute;
+    top: 32%;
+    left: 17.5%;
+    box-shadow: 0 10px 10px rgba(0, 0, 0, 0.2);
+
+}
+
+.px2 {
+    display: flex;
+    flex-direction: row;
+    position: absolute;
+    top: 50%;
+    left: 17.5%;
+    box-shadow: 0 10px 10px rgba(0, 0, 0, 0.2);
+
+}
+
+.px3 {
+    display: flex;
+    flex-direction: row;
+    position: absolute;
+    top: 67%;
+    left: 17.5%;
+    box-shadow: 0 10px 10px rgba(0, 0, 0, 0.2);
+
+}
+.s{
+   font-size: 40px;
+}
+
+.App .Footer {
+  margin: 0px;
+    margin-bottom: -50px;
+  }
+  .img{
+    position: absolute;
+    top: 50px;
+    transition: transform 0.2s ease-in-out;
+    transform: translateY(-3px);
+    transform: translateX(290px);
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+    position: absolute;
+    top: 47%;
+    left: 50%;
+    transform: translate(-50%, -43%);
+    background-color: rgba(255, 255, 255, 0.7);
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 16px;
+  }
+  .imgD{
+  position: absolute;
+  top: 120px;
+  left:0px;
+    width: 1470px;
+    height: 557px;
+    margin-right: 200px;
+    transition: transform 0.2s ease-in-out;
+
 }

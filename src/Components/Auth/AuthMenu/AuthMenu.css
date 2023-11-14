@@ -1,3 +1,7 @@
 .AuthMenu {
-	
+font-size: x-large;	
+}
+.white{
+    text-shadow: 0 10px 10px rgba(0, 0, 0, 0.2);
+    color: white;
 }

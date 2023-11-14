@@ -12,7 +12,6 @@ CLOTHING = "CLOTHING",
   export interface CouponModel {
   id: number;
   company: CompanyModel;
-  // customerId: number;
   category: CouponCategory; 
   title: string;
   description: string;

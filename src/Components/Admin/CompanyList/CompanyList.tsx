@@ -1,15 +1,15 @@
-import { useEffect, useState } from "react";
 import "./CompanyList.css";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import { CompanyModel } from "../../../Models/CompanyModel";
 import { RxUpdate } from "react-icons/rx";
 import { RiDeleteBin5Fill } from "react-icons/ri";
-import urlService from "../../../Services/UrlService";
 import store, { RootState } from "../../../Redux/Store";
 import { useDispatch, useSelector } from "react-redux";
 import { deletedCompanyAction, gotAllCompaniesAction } from "../../../Redux/CompanyAppState";
 import notifyService from "../../../Services/NotificationService";
 import { Link } from "react-router-dom";
+import webApiService from "../../../Services/WebApiService";
 
 function CompanyList(): JSX.Element {
   const [company, setCompany] = useState<CompanyModel[]>(store.getState().companyReducer.companies);
@@ -18,16 +18,15 @@ function CompanyList(): JSX.Element {
   const dispatch = useDispatch();
 
   useEffect(() => {
-      if (company?.length > 0) {
-          return;
-     }
-    axios.get<CompanyModel[]>(`${urlService.admin}/company`)
+       webApiService.getAllCompanies()
       .then((res) => {
-        console.log(res.data);
         setCompany(res.data);
         dispatch(gotAllCompaniesAction(res.data))
       })
-      .catch((err) => console.log(err.data));
+      .catch((err) => { 
+      console.log(err.data)
+      notifyService.showErrorNotification(err);
+  });
   }, []);
 
   const handleDeleteClick = (company: CompanyModel) => {
@@ -39,8 +38,8 @@ function CompanyList(): JSX.Element {
       const companyId = selectedCompany.id;
 
       axios
-        .delete<CompanyModel>(`${urlService.admin}/company/${companyId}`)
-        .then((res) => {
+      webApiService.deleteCompany(companyId) 
+        .then(() => {
           const updatedCompanyList = company.filter((c) => c.id !== companyId);
           setCompany(updatedCompanyList);
           setSelectedCompany(null);
@@ -59,7 +58,7 @@ function CompanyList(): JSX.Element {
   };
 
   return (
-    <div className="Table">
+    <div className="Table row ">
       <h1>Company List</h1>
         <p className="total company-card">Total Companies :  { total ? <span>{total}</span> : <span> No Values </span> }</p>
       <table>
@@ -77,15 +76,15 @@ function CompanyList(): JSX.Element {
         <tbody>
           {company.map((company, idx) => (
             <tr key={`company ${idx}`}>
-              <td>{company.id}</td>
+              <td><Link  className="hover-link" to={`/SingleCompany/${company.id}`}></Link>{company.id}</td>
               <td>
-                <img width={45} height={45} src={company.image} />
+                <Link to={`/SingleCompany/${company.id}`}><img width={45} height={45} src={company.image} /></Link>
               </td>
               <td>{company.name}</td>
               <td>{company.email}</td>
               <td>{company.password}</td>
               <td>
-                <Link to={"/UpdateCompany"}><button className="update">
+                <Link to={`/UpdateCompany/${company.id}`}><button className="update">
                   <RxUpdate />
                 </button></Link>
               </td>

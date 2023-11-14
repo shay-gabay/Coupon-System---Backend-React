@@ -1,44 +1,70 @@
 .AdminMenu {
-  /* display: flex; */
-    /* flex: 1; */
-    /* flex-direction: column; */
+  /* position: absolute; */
+  /* top:150px; */
+  /* left:30px; */
+  /* height: 560px; */
+/* display: flex;; */
+/* flex-direction: column; */
+/* justify-content: center; */
+/* align-items: center; */
 }
 
 h1{
   text-shadow: 15px 14px 6px rgba(0, 0, 0, 0.1); 
+  /* margin-top: 0px */
 }
 p{
   text-shadow: 15px 14px 6px rgba(0, 0, 0, 0.1); 
 
 }
+.black{
+  color: black;
+}
 
 .link {
     font-size: 20px;
+    /* margin: 3px; */
     text-decoration: none;
-    color: black;
 }
 
 .link:hover {
     color: blue;
 }
 .a{
-  margin: 0;
-  padding: 0;
+  margin: 0px;
+  padding: 0px;
 }
 
 .imgB {
+display: flex;
+flex-direction: column;  
+/* height: 75%; */
+/* width: 120%; */
+/* justify-content:end; */
+/* align-items: flex-start; */
+
+/* top: 126px; */
+    /* left: 300px; */
+    /* width: 80%; */
+    /* height: 73%; */
     position: absolute;
-    top: 128px;
-    left: 637px;
-    width:900;
-    height: 900;
-    width: 56%;
-    height: 70%;
+    top: 119px;
+    left: 300px;
+    /* width: 120%; */
+    /* height: 100%; */
+    height: 532px;
+    width: 1170px; 
   }
 
-/* AdminMenu.css */
-/* 
-/* Keyframes for the rotation animation */
+  .imgC {
+    position: absolute;
+    top: 128px;
+    left: 300px;
+    width: 78%;
+    height: 75%;
+  }
+
+
  @keyframes rotateRight {
     0% {
       transform: rotate(0deg);
@@ -67,15 +93,14 @@ p{
    
 
 .fade {
-  opacity: 0; /* Start with opacity 0 */
-  transition: opacity 0.5s ease-in-out; /* Apply transition on opacity with 0.5s duration */
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out; 
 }
 
 .fade-in {
-  opacity: 1; /* Change opacity to 1 for fadeIn effect */
+  opacity: 1; 
 }
 
-/* Optional: Add fadeOut effect when exiting */
 .fade-out {
-  opacity: 0; /* Change opacity to 0 for fadeOut effect */
+  opacity: 0; 
 }

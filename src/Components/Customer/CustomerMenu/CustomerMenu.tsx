@@ -7,9 +7,12 @@ import { RiCoupon4Fill } from "react-icons/ri";
 import { RiCoupon4Line } from "react-icons/ri";
 import { ImPriceTag } from "react-icons/im";
 import { BiSolidCategory } from "react-icons/bi";
+import { useDispatch } from "react-redux";
 
 function CustomerMenu(): JSX.Element {
   const [fadeIn, setFadeIn] = useState(false);
+  const dispatch = useDispatch();
+  const id = 1;
   useEffect(() => {
     setFadeIn(true); // Trigger fadeIn animation
   }, []);
@@ -18,25 +21,25 @@ function CustomerMenu(): JSX.Element {
     <div className={`fade ${fadeIn ? "fade-in" : "fade-out"}`}>
 <div className="AdminMenu">
       <h1>Customer Menu</h1>
-      <Link to={"/CouponList"} className="link">
+      <Link to={`/CouponList/${id}`} className="link">
         <GiMoneyStack /> Purchase Coupon
       </Link>
-      <Link to={"/CustomerCoupons"} className="link">
+      <Link to={`/CustomerCoupons/${id}`} className="link">
         <RiCoupon4Fill /> Customer Coupons
       </Link>
-      <Link to={"/CustomerSingleCoupon"} className="link">
+      <Link to={`/CustomerSingleCoupon/${id}`} className="link">
         <RiCoupon4Line /> Customer Single Coupon
       </Link>
-      <Link to={"/CustomerMaxPriceCoupons"} className="link">
+      <Link to={`/CustomerMaxPriceCoupons/${id}`} className="link">
         <ImPriceTag /> Customer Max Price Coupons
       </Link>
-      <Link to={"/CustomerCategoryCoupons"} className="link">
+      <Link to={`/CustomerCategoryCoupons/${id}`} className="link">
         <BiSolidCategory /> Customer Category Coupons
       </Link>
-      <Link to={"/CustomerDetails"} className="link">
+      <Link to={`/CustomerDetails/${id}`} className="link">
         <TbListDetails /> Customer Details
       </Link>
-      <img className="img" src="/src/assets/Images/Customer.jpg" />
+      {/* <img className="img" src="/src/assets/Images/Customer.jpg" /> */}
     </div>
     </div>
   );

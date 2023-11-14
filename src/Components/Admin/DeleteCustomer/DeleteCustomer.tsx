@@ -1,26 +1,24 @@
 import "./DeleteCustomer.css";
 import { useState } from "react";
-import axios from "axios";
-import urlService from "../../../Services/UrlService";
 import { CustomerModel } from "../../../Models/CustomerModel";
 import CustomerCard from "../../Shared/Card/CustomerCard";
 import notifyService from "../../../Services/NotificationService";
-import store, { RootState } from "../../../Redux/Store";
-import { deletedCustomerAction } from "../../../Redux/CustomerAppState";
-import { useDispatch, useSelector } from "react-redux";
+import { deletedCustomerAction, gotSingleCustomerAction } from "../../../Redux/CustomerAppState";
+import { useDispatch } from "react-redux";
+import webApiService from "../../../Services/WebApiService";
 
 function DeleteCustomer(): JSX.Element {
-  const [customer, setCustomer] = useState<CustomerModel | undefined>();
-  const [customerId, setCustomerId] = useState<number>(1);
+  const [customer, setCustomer] = useState<CustomerModel>();
+  const [customerId, setCustomerId] = useState<number>(0);
   const [isValidInput, setIsValidInput] = useState(true);
  const dispatch = useDispatch();
 
   const handleSubmit = () => {
-      axios
-        .get<CustomerModel>(`${urlService.admin}/customer/${customerId}`)
+    webApiService.getSingleCustomer(customerId)  
         .then((res) => {
           setCustomer(res.data);
           setIsValidInput(true);
+          dispatch(gotSingleCustomerAction(res.data))
         })
         .catch((err) => {
           notifyService.showErrorNotification(err);
@@ -29,15 +27,13 @@ function DeleteCustomer(): JSX.Element {
   };
 
   const DeleteSubmit = () => {
-    axios
-      .delete<CustomerModel>(`${urlService.admin}/customer/${customerId}`)
+    webApiService.deleteCustomer(customerId)
       .then((res) => {
         setCustomer(res.data);
         dispatch(deletedCustomerAction(customerId))
         notifyService.success(`Customer ${customer?.firstName} ${customer?.lastName} Deleted Successfully`)
       })
       .catch((err) => {
-        console.error(err);
         notifyService.showErrorNotification(err);
       });
     };
@@ -46,6 +42,7 @@ function DeleteCustomer(): JSX.Element {
     setCustomer(undefined);
     setCustomerId(0);
     setIsValidInput(true);
+    notifyService.error("Customer Not Deleted");
   };
 
   return (
@@ -67,8 +64,7 @@ function DeleteCustomer(): JSX.Element {
         <button className="submit" onClick={handleSubmit}>
           Apply
         </button> 
-      </div> : <p></p> } 
-     <p className="company-info"> {customer && <CustomerCard customer={customer} />}</p>
+      </div> : null } 
       {customer && (
         <p className="spc company-card">
           <b> Are you sure you want to delete this customer ? </b>
@@ -76,6 +72,8 @@ function DeleteCustomer(): JSX.Element {
           <button className="no-button" onClick={handleNoButtonClick}>No</button>
         </p>
       )}
+     <p className="company-info"> {customer && <CustomerCard customer={customer} />}</p>
+
     </div>
   );
 }

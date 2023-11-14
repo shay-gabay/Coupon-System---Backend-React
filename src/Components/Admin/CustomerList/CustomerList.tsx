@@ -6,22 +6,21 @@ import { RxUpdate } from "react-icons/rx";
 import { RiDeleteBin5Fill } from "react-icons/ri";
 import urlService from "../../../Services/UrlService";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../../Redux/Store";
+import store, { RootState } from "../../../Redux/Store";
 import { deletedCustomerAction, gotAllCustomersAction } from "../../../Redux/CustomerAppState";
 import notifyService from "../../../Services/NotificationService";
 import { Link } from "react-router-dom";
+import webApiService from "../../../Services/WebApiService";
 
 function CustomerList(): JSX.Element {
-  const [customer, setCustomer] = useState<CustomerModel[]>([]);
+  const [customer, setCustomer] = useState<CustomerModel[]>(store.getState().customerReducer.customers);
   const [selectedCustomer, setSelectedCustomer] = useState<CustomerModel | null>(null); 
-  const dispatch = useDispatch();
   const total = useSelector((state: RootState) => state.customerReducer.customers.length)
+  const dispatch = useDispatch();
 
   useEffect(() => {
-  axios
-      .get<CustomerModel[]>(urlService.admin + "/customer")
+  webApiService.getAllCustomers()
       .then((res) => {
-        console.log(res.data);
         setCustomer(res.data);
         dispatch(gotAllCustomersAction(res.data))
       })
@@ -39,15 +38,14 @@ const handleDeleteClick = (customer: CustomerModel) => {
 
       axios
         .delete<CustomerModel>(`${urlService.admin}/customer/${customerId}`)
-        .then((res) => {
+        .then(() => {
           const updatedCustomerList = customer.filter((c) => c.id !== customerId);
           setCustomer(updatedCustomerList);
           setSelectedCustomer(null);
           dispatch(deletedCustomerAction(customerId));
-          notifyService.success(`Company ${selectedCustomer?.name} Deleted Successfully`);
+          notifyService.success(`Company ${selectedCustomer?.firstName}${selectedCustomer?.lastName} Deleted Successfully`);
         })
         .catch((err) => {
-          console.error(err);
           notifyService.showErrorNotification(err.message || "Error");
         });
     }
@@ -77,13 +75,13 @@ const handleDeleteClick = (customer: CustomerModel) => {
         <tbody>
           {customer.map((customer, idx) => (
             <tr key={`customer ${idx}`}>
-              <td>{customer.id}</td>
+              <td><Link  className="hover-link" to={`/SingleCustomer/${customer.id}`}></Link>{customer.id}</td>
               <td>{customer.firstName}</td>
               <td>{customer.lastName}</td>
               <td>{customer.email}</td>
               <td>{customer.password}</td>
               <td>
-                <Link to={"/UpdateCompany"}><button className="update">
+                <Link to={`/UpdateCustomer/${customer.id}`}><button className="update">
                   <RxUpdate />
                 </button></Link> 
               </td>

@@ -5,7 +5,9 @@ import { useState, useEffect } from 'react';
 import urlService from "../../../Services/UrlService";
 import axios from "axios";
 import notifyService from "../../../Services/NotificationService";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import store from "../../../Redux/Store";
+import { useDispatch } from "react-redux";
 
 interface CouponCardProps {
   coupon: CouponModel;
@@ -14,12 +16,13 @@ interface ILTimeProps{
   date:Date;
 }
 
-
-
 function CouponCard(props: CouponCardProps & ILTimeProps): JSX.Element {
   const companyImage = props.coupon.company.image;
   const [isImageValid, setIsImageValid] = useState(true);
-  const navigate = useNavigate();
+ const navigate = useNavigate();
+  const Params = useParams();
+  const id = +(Params.id || 0);
+  const headers = { 'Authorization': store.getState().userReducer.user.token };
 
   useEffect(() => {
     const img = new Image();
@@ -34,23 +37,19 @@ function CouponCard(props: CouponCardProps & ILTimeProps): JSX.Element {
     img.src = props.coupon.image;
   }, [props.coupon.image]);
 
-  const customerId = 2;
   const couponId = props.coupon.id;
  
   const handleSubmit = () => {
-
-    axios
-        .post<any>(`${urlService.customer}/${customerId}/coupons/${couponId}`)
-        .then((any) => {
+    axios.post<any>(`${urlService.customer}/${id}/coupons/${couponId}`, null, { headers })
+    .then((any) => {
          console.log(any)
           notifyService.success(`Purchase Coupon #${couponId} Successfully`);
-          navigate("/CouponList")
+          navigate(-1);
         })
         .catch((err) => notifyService.showErrorNotification(err));
-    }
+   []}
    
     if (!props.coupon) {
-   console.log('no coupons')
       return <h1>No coupons</h1>;
    
     }
@@ -90,8 +89,3 @@ function CouponCard(props: CouponCardProps & ILTimeProps): JSX.Element {
 }
 
 export default CouponCard;
-
-// function setIsImageValid(arg0: boolean) {
-//   throw new Error("Function not implemented.");
-// }
-

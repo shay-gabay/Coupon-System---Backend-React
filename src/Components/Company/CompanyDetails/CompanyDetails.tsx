@@ -1,31 +1,35 @@
 import { useEffect, useState } from "react";
 import "./CompanyDetails.css";
-import axios from "axios";
 import { CompanyModel } from "../../../Models/CompanyModel";
-import urlService from "../../../Services/UrlService";
 import CompanyCard from "../../Shared/Card/CompanyCard";
 import notifyService from "../../../Services/NotificationService";
+import { useDispatch } from "react-redux";
+import { gotSingleCompanyAction } from "../../../Redux/CompanyAppState";
+import { useParams } from "react-router-dom";
+import webApiService from "../../../Services/WebApiService";
 
 function CompanyDetails(): JSX.Element {
-  const [company, setCompany] = useState<CompanyModel[]>([]);
-  const companyId = 1;
+  const [company, setCompany] = useState<CompanyModel>();
+  const dispatch = useDispatch();
+  const params = useParams();
+  const id = +(params.id || 0);
+  
+ 
   useEffect(() => {
-    axios
-      .get<CompanyModel[]>(urlService.company + `/${companyId}`)
+    webApiService.getCompanyDetails(id)
       .then((res) => {
-        console.log(res.data);
-        setCompany([res.data]);
+        setCompany(res.data);
+        dispatch(gotSingleCompanyAction(res.data))
       })
       .catch((err) => {
-        notifyService.showErrorNotification(err.data)});
+       notifyService.showErrorNotification(err.data)});
   }, []);
 
   return (
     <div>
       <h1 className="h1">Company Details</h1>
-      {company.map((c, idx) => (
-        <CompanyCard key={c.name + " " + idx.toString()} company={c} />
-      ))}
+      {company && <CompanyCard company={company} />}
+      
     </div>
   );
 }

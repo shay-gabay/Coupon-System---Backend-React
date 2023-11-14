@@ -11,7 +11,6 @@ function CustomerCard(props:CustomerCardProps): JSX.Element {
             <p># {props.customer.id} {props.customer.firstName} {props.customer.lastName}</p>
             <p>Email : {props.customer.email}</p>
             <p>Password : {props.customer.password}</p>
-            {/* <p>Coupons : {props.customer.couponId}</p> */}
         </div>
     );
 }

@@ -1,27 +1,23 @@
-//This is TaksAppState.ts file
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { CustomerModel } from '../Models/CustomerModel';
 
-//This is the Contract
 interface CustomersState {
 			customers: CustomerModel[];
 }
 
-//This is the initialized customer Application State - initialize within empty array
 const initialState: CustomersState = {
 			customers: [],
 };
 
-//These are all possible actions
 export enum ActionType {
 			GOT_ALL_CUSTOMER = "GOT_ALL_CUSTOMERS",
 			GOT_SINGLE_CUSTOMER = "GOT_SINGLE_CUSTOMER",
 		  ADDED_CUSTOMER = "ADDED_CUSTOMER",
 		  UPDATED_CUSTOMER = "UPDATED_CUSTOMER",
 		  DELETED_CUSTOMER = "DELETED_CUSTOMER",
+      CLEAR_DATA = "CLEAR_DATA"
 }
 
-//This is customersSlice
 const customersSlice = createSlice({
   name: "customers",
   initialState,
@@ -42,19 +38,21 @@ const customersSlice = createSlice({
     deletedCustomerAction(state, action: PayloadAction<number>) {
       state.customers = state.customers.filter((customer) => customer.id !== action.payload);
     },
+    clearAllCustomerAction(state) {
+      state.customers = initialState.customers;
+  }
   },
 });
 
 
-//This is the exported customers
 export const {
   gotAllCustomersAction,
   gotSingleCustomerAction,
   addedCustomerAction,
   updatedCustomerACtion,
   deletedCustomerAction,
+  clearAllCustomerAction,
 } = customersSlice.actions;
 
 
-//Export the reducer
 export const customersReducer = customersSlice.reducer;

@@ -1,8 +1,7 @@
 .Menu {
+    position:inherit ;
     display: flex;
     flex-direction: column;
-    justify-content: space-around;
     align-items: center;
-    text-decoration: dashed;
-    overflow-y: auto;
-}
+    margin-top: 10px;
+    }

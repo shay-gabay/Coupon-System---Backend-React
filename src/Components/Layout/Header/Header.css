@@ -2,11 +2,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    /* background-color: rgb(2, 12, 157); */
-    /* background-color: rgb(0,8,130); */
     background-color: rgb(23, 76, 116);
-    /* background: linear-gradient(to top, rgb(21, 21, 189),rgb(23, 76, 116)); */
-    /* background: linear-gradient(to top,white, rgb(21, 21, 189)); */
     padding: 10px;
     margin-bottom: 5px;
 }
@@ -33,7 +29,6 @@
 
 .system-title {
     margin: 0px 0 0 62px;
-    /* padding: 10px;  */
     font-size: 24px;
 }
 
@@ -51,8 +46,6 @@
     align-items: center;
     margin: 5px;
     margin-Right: 5px;
-    /* margin-left: auto; */
-    /* background-color: transparent; */
     background-color: rgb(33, 96, 145);
     transition: background-color 0.3s ease-in-out;
     cursor: pointer;

@@ -5,7 +5,7 @@ function CopyRights(): JSX.Element {
     return (
         <div className="CopyRights">
             <p><b className="color b"> Coupon System </b></p>
-            <p> All Rights Reserved To Shay Gabay  &copy; 2023 </p>
+            <p> All Rights Reserved To Shay Gabay  &copy; {year} </p>
             <p><a> John Bryce Academy</a></p>
             <p><span> Lecturer Kobi Shasha</span></p>
         </div>

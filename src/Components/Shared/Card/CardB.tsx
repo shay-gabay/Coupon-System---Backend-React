@@ -62,5 +62,3 @@ function CouponCard(props: CouponCardProps & ILTimeProps): JSX.Element {
 }
 
 export default CouponCard;
-
-

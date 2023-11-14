@@ -1,66 +1,44 @@
 import "./CompanySingleCoupon.css";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import CardB from "../../Shared/Card/cardB";
-// import CustomerCard from "../../Shared/Card/CustomerCard";
 import { CouponModel } from "../../../Models/CouponModel";
-import axios from "axios";
-import urlService from "../../../Services/UrlService";
-// import { CustomerModel } from "../../../Models/CustomerModel";
-import { CompanyModel } from "../../../Models/CompanyModel";
 import notifyService from "../../../Services/NotificationService";
+import { useParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { gotSingleCouponAction } from "../../../Redux/CouponAppState";
+import webApiService from "../../../Services/WebApiService";
+import { RootState } from "../../../Redux/Store";
 
 function CompanySingleCoupon(): JSX.Element {
   const [coupon, setCoupon] = useState<CouponModel>();
   const [couponId, setCouponId] = useState<number>();
-  const companyId = 1;
+  const dispatch = useDispatch();
+  const params = useParams();
+  const id = +(params.id || 0);
+  const companyName =useSelector((state:RootState)=>state.userReducer.user.clientName)
+
   const handleSubmit = () => {
-    axios
-      .get<CouponModel>(`${urlService.company}/${companyId}/coupons/${couponId}`)
+    webApiService.getSingleCoupon(id,couponId)
       .then((res) => {
         console.log(res.data);
         setCoupon(res.data);
+      dispatch(gotSingleCouponAction(res.data))
       })
       .catch((err) => notifyService.showErrorNotification(err));
   };
 
-  const [company, setCompany] = useState<CompanyModel>();
-  useEffect(() => {
-    axios
-      .get<CompanyModel>(`${urlService.company}/${companyId}`)
-      .then((res) => {
-        console.log(res.data);
-        setCompany(res.data);
-      })
-      .catch((err) => notifyService.showErrorNotification(err.data));
-  }, []);
-
   return (
     <div className="content">
       <h1 className="h1">Company's Single Coupon</h1>
-      <div className="CustomerCoupons">
-          <div>
-            <p>
-              Company Name: {company?.name}
-            </p>
-          </div>
+      <div className="CustomerCoupons input">
+          <div> Company Name: {companyName} </div>
       </div>
-
       <div className="input company-card">
         <h2>Please insert the coupon id </h2>
-        <input
-          className="input-window"
-          type="number"
-          min="1"
-          placeholder="ID..."
-          value={couponId}
-          onChange={(e) => {
-            setCouponId(Number(e.target.value));
-          }}
-        />
-        <button className="submit" onClick={handleSubmit}>
-          Apply
-        </button>
-      </div>
+        <input className="input-window" type="number" min="1" placeholder="ID..." value={couponId} 
+        onChange={(e) => {setCouponId(Number(e.target.value)); }}/>
+        <button className="submit" onClick={handleSubmit}> Apply </button>
+      </div> 
         {coupon && <CardB coupon={coupon} />}
     </div>
   );
